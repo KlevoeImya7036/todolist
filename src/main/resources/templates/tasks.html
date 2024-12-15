@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Done</th>
+        </tr>
+        <tr th:each="task : ${tasks}">
+            <td><span th:text="${task.id}"></span></td>
+            <td><span th:text="${task.name}"></span></td>
+            <td><span th:text="${task.description}"></span></td>
+            <td><span th:text="${task.done}"></span></td>
+        </tr>
+    </table>
+</body>
+</html>

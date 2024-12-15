@@ -16,8 +16,8 @@ public class UserRestController {
     public ArrayList<User> people = new ArrayList<User>();
 
     UserRestController() {
-        people.add(new User("John", 18));
-        people.add(new User("Jane", 19));
+        people.add(new User(0, "John", 18, "example@mail.com"));
+        people.add(new User(1, "Jane", 19, "example@mail.com"));
     }
 
     @GetMapping("api/user")

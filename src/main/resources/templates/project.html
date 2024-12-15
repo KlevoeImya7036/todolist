@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${project.name}"></title>
+    <style>
+        aside {
+            width: 200px;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #f1f1f1;
+        }
+        aside a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #333;
+        }
+        aside a:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <aside th:each="task : ${project.tasks}">
+        <h1><a th:href="|task/${task.id}|" th:text="${task.name}">Задача 1</a></h1>
+        <p th:text="${task.description}"></p>
+    </aside>
+</body>
+</html>

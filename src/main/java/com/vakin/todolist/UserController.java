@@ -13,8 +13,8 @@ public class UserController {
     public ArrayList<User> people = new ArrayList<User>();
 
     UserController() {
-        people.add(new User("John", 18));
-        people.add(new User("Jane", 19));
+        people.add(new User(0, "John", 18, "example@mail.com"));
+        people.add(new User(1, "Jane", 19, "example@mail.com"));
     }
 
     @GetMapping("user")
