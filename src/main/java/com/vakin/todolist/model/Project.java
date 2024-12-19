@@ -1,17 +1,26 @@
-package com.vakin.todolist;
+package com.vakin.todolist.model;
 
 import java.util.ArrayList;
 
-public class Project {
-    public int id;
-    public String name;
-    public String description;
-    public ArrayList<User> admins = new ArrayList<User>();
-    public ArrayList<User> users = new ArrayList<User>();
-    public ArrayList<Task> tasks = new ArrayList<Task>();
+import jakarta.persistence.*;
+import lombok.Data;
 
-    Project(int id, String name, String description, ArrayList<User> admins, ArrayList<User> users, ArrayList<Task> tasks) {
-        this.id = id;
+@Entity
+@Table(name = "projects")
+@Data
+public class Project {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+    private String name;
+    private String description;
+    private ArrayList<User> admins = new ArrayList<User>();
+    private ArrayList<User> users = new ArrayList<User>();
+    private ArrayList<Task> tasks = new ArrayList<Task>();
+
+    Project(){}
+    Project(String name, String description, ArrayList<User> admins, ArrayList<User> users, ArrayList<Task> tasks) {
         this.name = name;
         this.description = description;
         this.admins = admins;
@@ -19,6 +28,7 @@ public class Project {
         this.tasks = tasks;
     }
 
+    @Override
     public String toString() {
         String admin = "{";
         for (User a: admins) {

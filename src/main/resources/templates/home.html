@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jira-like Home Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f5f7;
+      color: #172b4d;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      background: #ffffff;
+      padding: 40px 60px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #0052cc;
+    }
+
+    p {
+      font-size: 1rem;
+      margin-bottom: 30px;
+      color: #5e6c84;
+    }
+
+    a {
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-login {
+      background-color: #0052cc;
+      color: #ffffff;
+    }
+
+    .btn-login:hover {
+      background-color: #0040a0;
+    }
+
+    .btn-signup {
+      background-color: #ffffff;
+      color: #0052cc;
+      border: 2px solid #0052cc;
+    }
+
+    .btn-signup:hover {
+      background-color: #f4f5f7;
+    }
+
+    .a-singup {
+      color: #0052cc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to My app</h1>
+    <p>Это единственный инструмент управления проектами, который понадобится вам для планирования и отслеживания работы команд.</p>
+    <div class="buttons">
+      <button class="btn btn-login"><a href="/login">Log In</a></button>
+      <button class="btn btn-signup"><a href="/singup" class="a-singup">Sign Up</a></button>
+    </div>
+  </div>
+</body>
+</html>

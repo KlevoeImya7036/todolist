@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма редактирования пользователя</title>
+</head>
+<body>
+    <h2>Редактирование пользователя</h2>
+    <form method="post" th:object="${userdto}">
+        <label for="username">Имя пользователя:</label><br>
+        <input type="text" id="username" name="username" required th:field="${userdto.username}"><br>
+        <label for="password">Пароль:</label><br>
+        <input type="password" id="password" name="password" required th:field="${userdto.password}"><br>
+        <label for="name">Имя:</label><br>
+        <input type="text" id="name" name="name" required th:field="${userdto.name}"><br>
+        <label for="age">Возраст:</label><br>
+        <input type="number" id="age" name="age" required th:field="${userdto.age}"><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required th:field="${userdto.email}"><br>
+        <button type="submit">Сохранить</button>
+    </form>
+</body>
+</html>
