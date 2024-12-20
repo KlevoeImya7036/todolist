@@ -1,7 +1,5 @@
 package com.vakin.todolist.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,23 +37,6 @@ public class UserController {
     public String getUser(@PathVariable long id, Model model) {
         model.addAttribute("user", userRepository.findById(id).orElse(null));
         return "user";
-    }
-
-    @GetMapping("createuser")
-    public String createUser(Model model) {
-        model.addAttribute("userdto", new UserDto());
-        return "createuser";
-    }
-
-    @PostMapping("createuser")
-    public String postUser(@Valid @ModelAttribute UserDto userdto, BindingResult result) {
-        if (result.hasErrors()) {
-            return "createuser";
-        }
-        User user = new User(userdto.getName(), userdto.getAge(), userdto.getEmail(), userdto.getUsername(), userdto.getPassword());
-        userRepository.save(user);
-
-        return "redirect:/user";
     }
 
     @DeleteMapping("{id}")

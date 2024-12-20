@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Форма создания пользователя</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
     <h2>Создание пользователя</h2>
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        <p th:text="${error}"></p>
+    </div>
     <form method="post" th:object="${userdto}">
         <label for="username">Имя пользователя:</label><br>
         <input type="text" id="username" name="username" required th:field="${userdto.username}"><br>

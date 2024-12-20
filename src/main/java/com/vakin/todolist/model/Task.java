@@ -3,6 +3,7 @@ package com.vakin.todolist.model;
 import java.util.ArrayList;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Entity
@@ -13,9 +14,17 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "name")
+    @NotBlank(message = "Name is required")
     private String name;
+
+    @Column(name = "description")
     private String description;
+
     private ArrayList<User> assigned; // users assigned to this task
+
+    @Column(name = "done", nullable = false)
     private boolean done;
 
     Task(){}
