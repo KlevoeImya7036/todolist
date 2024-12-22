@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.vakin.todolist.details.UserDetailsServiceImpl;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -19,27 +21,27 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
     
-    // @Bean
-    // public UserDetailsService userDetailsService() {
-    //     return new UserDetailsServiceImpl();
-    // }
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsServiceImpl();
+    }
 
-    // @Bean
-    // public AuthenticationProvider authenticationProvider() {
-    //     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-    //     authProvider.setUserDetailsService(userDetailsService());
-    //     authProvider.setPasswordEncoder(passwordEncoder());
-    //     return authProvider;
-    // }
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                .requestMatchers("/", "/singup").permitAll()
+                .requestMatchers("/", "/signup", "/login").permitAll()
                 .anyRequest().authenticated())
-                .formLogin(formLogin -> formLogin.permitAll().defaultSuccessUrl("/"));
+                .formLogin(formLogin -> formLogin.permitAll().defaultSuccessUrl("/").loginPage("/login"));
 
         return http.build();
     }

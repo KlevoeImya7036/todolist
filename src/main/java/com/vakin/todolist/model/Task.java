@@ -1,6 +1,7 @@
 package com.vakin.todolist.model;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -22,16 +23,19 @@ public class Task {
     @Column(name = "description")
     private String description;
 
-    private ArrayList<User> assigned; // users assigned to this task
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_task",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> assigned = new HashSet<User>(); // users assigned to this task
 
     @Column(name = "done", nullable = false)
     private boolean done;
 
     Task(){}
-    Task(String name, String description, ArrayList<User> assigned, boolean done) {
+    Task(String name, String description, boolean done) {
         this.name = name;
         this.description = description;
-        this.assigned = assigned;
         this.done = done;
     }
 

@@ -1,5 +1,8 @@
 package com.vakin.todolist.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
@@ -33,9 +36,15 @@ public class User {
     private String password;
 
     @Column(name = "email", unique = true)
-    // @Email(message = "Invalid email")
     @NotBlank(message = "Email is required")
+    @Email
     private String email;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public User(){}
     public User(String name, Integer age, String email, String username, String password) {

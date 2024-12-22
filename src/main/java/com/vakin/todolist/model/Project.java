@@ -1,6 +1,7 @@
 package com.vakin.todolist.model;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -22,36 +23,45 @@ public class Project {
     @Column(name = "description")
     private String description;
     
-    private ArrayList<User> admins = new ArrayList<User>();
-    private ArrayList<User> users = new ArrayList<User>();
-    private ArrayList<Task> tasks = new ArrayList<Task>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "admin_id")
+    private User admin;
 
-    Project(){}
-    Project(String name, String description, ArrayList<User> admins, ArrayList<User> users, ArrayList<Task> tasks) {
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_project",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> users = new HashSet<User>();
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "project_task",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id"))
+    private Set<Task> tasks = new HashSet<Task>();
+
+    public Project(){}
+    Project(String name, String description) {
         this.name = name;
         this.description = description;
-        this.admins = admins;
-        this.users = users;
-        this.tasks = tasks;
     }
 
-    @Override
-    public String toString() {
-        String admin = "{";
-        for (User a: admins) {
-            admin += a.toString() + ",";
-        }
-        admin += "}";
-        String user = "{";
-        for (User a: users) {
-            user += a.toString() + ",";
-        }
-        user += "}";
-        String task = "{";
-        for (Task a: tasks) {
-            task += a.toString() + ",";
-        }
-        task += "}";
-        return "{\"id\": "+id+", \"name\": \""+name+"\", \"description\": \""+description+"\", \"admins\": "+admin+", \"users\": "+user+", \"tasks\": "+task+"}";
-    }
+    // @Override
+    // public String toString() {
+    //     String admin = "{";
+    //     for (User a: admins) {
+    //         admin += a.toString() + ",";
+    //     }
+    //     admin += "}";
+    //     String user = "{";
+    //     for (User a: users) {
+    //         user += a.toString() + ",";
+    //     }
+    //     user += "}";
+    //     String task = "{";
+    //     for (Task a: tasks) {
+    //         task += a.toString() + ",";
+    //     }
+    //     task += "}";
+    //     return "{\"id\": "+id+", \"name\": \""+name+"\", \"description\": \""+description+"\", \"admins\": "+admin+", \"users\": "+user+", \"tasks\": "+task+"}";
+    // }
 }

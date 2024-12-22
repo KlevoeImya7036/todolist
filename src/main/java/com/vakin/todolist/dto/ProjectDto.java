@@ -1,7 +1,9 @@
 package com.vakin.todolist.dto;
 
 import jakarta.validation.constraints.*;
+import lombok.Data;
 
+@Data
 public class ProjectDto {
     @NotEmpty
     private String name;
