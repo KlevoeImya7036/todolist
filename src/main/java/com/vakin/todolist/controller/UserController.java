@@ -50,7 +50,12 @@ public class UserController {
         if (user == null) {
             return "redirect:/user";
         }
-        UserDto userdto = new UserDto(user.getName(), user.getAge(), user.getEmail(), user.getPassword(), user.getUsername());
+        UserDto userdto = new UserDto();
+        userdto.setName(user.getName());
+        userdto.setAge(user.getAge());
+        userdto.setEmail(user.getEmail());
+        userdto.setPassword(user.getPassword());
+        userdto.setUsername(user.getUsername());
         model.addAttribute("userdto", userdto);
         return "useredit";
     }

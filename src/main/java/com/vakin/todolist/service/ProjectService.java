@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.vakin.todolist.dto.ProjectDto;
 import com.vakin.todolist.exception.ProjectNotFoundException;
 import com.vakin.todolist.model.Project;
+import com.vakin.todolist.model.User;
 import com.vakin.todolist.repository.ProjectRepository;
 import com.vakin.todolist.repository.UserRepository;
 
@@ -62,5 +63,16 @@ public class ProjectService {
 
     public boolean isProjectOwner(Long id, String name) {
         return projectRepository.findById(id).map(project -> project.getAdmin().getUsername().equals(name)).orElse(false);
+    }
+
+    public Project addUserToProject(Long id, String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Project project = getProjectById(id);
+        project.addUser(user);
+        return projectRepository.save(project);
+    }
+
+    public List<Project> getAllProjectsByUser(User user) {
+        return projectRepository.findByUsers(user);
     }
 }

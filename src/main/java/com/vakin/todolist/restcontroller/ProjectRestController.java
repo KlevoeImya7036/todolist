@@ -40,10 +40,10 @@ public class ProjectRestController {
         projectRepository.deleteById(id);
     }
 
-    // @PostMapping
-    // public void postProject(@RequestBody Project newProject) {
-    //     projectRepository.add(newProject);
-    // }
+    @PostMapping
+    public void postProject(@RequestBody Project newProject) {
+        projectRepository.save(newProject);
+    }
 
     // @PutMapping("{id}")
     // public void putProject(@RequestBody Project newProject, @PathVariable long id) {

@@ -25,9 +25,15 @@
     </style>
 </head>
 <body>
+    <h1 th:text="${project.name}"></h1>
+    <a th:href="|${project.id}/edit|">Изменить</a><br>
+    <a th:href="|${project.id}/adduser|">Добавить пользователя</a>
     <aside th:each="task : ${project.tasks}">
         <h1><a th:href="|task/${task.id}|" th:text="${task.name}">Задача 1</a></h1>
         <p th:text="${task.description}"></p>
     </aside>
+    <div th:each="user : ${project.users}">
+        <h1><a th:text="${user.username}">Задача 1</a></h1>
+    </div>
 </body>
 </html>

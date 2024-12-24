@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post" th:object="${project}">
+        <h1 th:text="|Проект ${project.name} будет невозвратно удалён|"></h1>
+        <h2>Вы уверены?</h2>
+        <button><a href="/project">Нет</a></button>
+        <input type="submit" value="Да">
+    </form>
+    <h1 th:text></h1>
+</body>
+</html>

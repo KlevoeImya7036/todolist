@@ -31,13 +31,10 @@ public class HomePageController {
 
     @GetMapping("signup")
     public String createUser(Model model, String error) {
-        switch (error) {
-            case "InvalidUserName":
-                model.addAttribute("error", "Эта почта уже используется. Попробуйте другую.");
-                break;
-            case "InvalidEmail":
-                model.addAttribute("error", "Это имя пользователя уже используется. Попробуйте другое.");
-                break;
+        if (error == "InvalidUserName") {
+            model.addAttribute("error", "Эта почта уже используется. Попробуйте другую.");
+        } else if (error == "InvalidEmail") {
+            model.addAttribute("error", "Это имя пользователя уже используется. Попробуйте другое.");
         }
         model.addAttribute("userdto", new UserDto());
         return "signup";

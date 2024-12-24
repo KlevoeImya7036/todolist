@@ -8,7 +8,9 @@
 </head>
 <body>
     <h1>Создание пользователя</h1>
-    <p th:text="${error}" th:if="${error}"></p>
+    <div th:if="${error}">
+        <p th:text="${error}"></p>
+    </div>
     <form method="post" th:object="${userdto}">
         <label for="username">Имя пользователя:</label><br>
         <input type="text" id="username" name="username" required th:field="${userdto.username}"><br>

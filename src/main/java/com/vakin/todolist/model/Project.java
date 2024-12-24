@@ -33,35 +33,26 @@ public class Project {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users = new HashSet<User>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "project_task",
-            joinColumns = @JoinColumn(name = "project_id"),
-            inverseJoinColumns = @JoinColumn(name = "task_id"))
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "project_id")
     private Set<Task> tasks = new HashSet<Task>();
 
-    public Project(){}
-    Project(String name, String description) {
-        this.name = name;
-        this.description = description;
+    public void addUser(User user) {
+        this.users.add(user);
     }
 
-    // @Override
-    // public String toString() {
-    //     String admin = "{";
-    //     for (User a: admins) {
-    //         admin += a.toString() + ",";
-    //     }
-    //     admin += "}";
-    //     String user = "{";
-    //     for (User a: users) {
-    //         user += a.toString() + ",";
-    //     }
-    //     user += "}";
-    //     String task = "{";
-    //     for (Task a: tasks) {
-    //         task += a.toString() + ",";
-    //     }
-    //     task += "}";
-    //     return "{\"id\": "+id+", \"name\": \""+name+"\", \"description\": \""+description+"\", \"admins\": "+admin+", \"users\": "+user+", \"tasks\": "+task+"}";
-    // }
+    @Override
+    public String toString() {
+        String user = "{";
+        for (User a: users) {
+            user += a.toString() + ",";
+        }
+        user += "}";
+        String task = "{";
+        for (Task a: tasks) {
+            task += a.toString() + ",";
+        }
+        task += "}";
+        return "{\"id\": "+id+", \"name\": \""+name+"\", \"description\": \""+description+"\", \"admin\": "+admin.toString()+", \"users\": "+user+", \"tasks\": "+task+"}";
+    }
 }

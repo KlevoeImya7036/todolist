@@ -39,9 +39,9 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                .requestMatchers("/", "/signup", "/login").permitAll()
+                .requestMatchers("/", "/signup", "/login", "/api/**").permitAll()
                 .anyRequest().authenticated())
-                .formLogin(formLogin -> formLogin.permitAll().defaultSuccessUrl("/").loginPage("/login"));
+                .formLogin(formLogin -> formLogin.permitAll().defaultSuccessUrl("/project").loginPage("/login"));
 
         return http.build();
     }
