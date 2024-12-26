@@ -17,7 +17,7 @@ import com.vakin.todolist.dto.TaskDto;
 import com.vakin.todolist.exception.EmailAlreadyTakenException;
 import com.vakin.todolist.exception.UsernameAlreadyTakenException;
 import com.vakin.todolist.service.ProjectService;
-// import com.vakin.todolist.service.TaskService;
+import com.vakin.todolist.service.TaskService;
 import com.vakin.todolist.service.UserService;
 
 import jakarta.validation.Valid;
@@ -36,8 +36,8 @@ public class ProjectController {
     @Autowired
     private UserService userService;
 
-    // @Autowired
-    // private TaskService taskService;
+    @Autowired
+    private TaskService taskService;
     
     @GetMapping
     public String getAllProjects(Model model, Principal principal) {
@@ -117,25 +117,25 @@ public class ProjectController {
         return "redirect:/project/" + id;
     }
 
-    // @GetMapping("{id}/taskcreate")
-    // public String createUser(Model model) {
-    //     model.addAttribute("taskdto", new TaskDto());
-    //     return "taskCreate";
-    // }
+    @GetMapping("{id}/taskcreate")
+    public String createUser(Model model) {
+        model.addAttribute("taskdto", new TaskDto());
+        return "taskCreate";
+    }
 
-    // @PostMapping("{id}/taskcreate")
-    // public String saveUser(@Valid @ModelAttribute TaskDto taskdto, @PathVariable Long id, Model model, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-    //     if (bindingResult.hasErrors()) {
-    //         redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.task", bindingResult);
-    //         redirectAttributes.addFlashAttribute("task", taskdto);
-    //         return "redirect:/project/" + id + "/taskCreate";
-    //     }
-    //     try {
-    //         taskService.saveTask(taskdto, id);
-    //         return "redirect:/project/" + id;
-    //     } catch (Exception e) {
-    //         redirectAttributes.addFlashAttribute("error", e.getMessage());
-    //         return "redirect:/project/" + id + "/taskCreate";
-    //     }
-    // }
+    @PostMapping("{id}/taskcreate")
+    public String saveUser(@Valid @ModelAttribute TaskDto taskdto, @PathVariable Long id, Model model, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.task", bindingResult);
+            redirectAttributes.addFlashAttribute("task", taskdto);
+            return "redirect:/project/" + id + "/taskCreate";
+        }
+        try {
+            taskService.saveTask(taskdto, id);
+            return "redirect:/project/" + id;
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/project/" + id + "/taskCreate";
+        }
+    }
 }

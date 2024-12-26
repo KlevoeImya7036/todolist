@@ -33,7 +33,7 @@ public class Project {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users = new HashSet<User>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Task> tasks = new HashSet<Task>();
 
     

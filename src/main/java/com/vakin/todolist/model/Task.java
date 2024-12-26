@@ -32,7 +32,7 @@ public class Task {
     @Column(name = "done", nullable = false)
     private boolean done;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Project project;
 
 
@@ -44,13 +44,13 @@ public class Task {
         assigned.remove(user);
     }
 
-    @Override
-    public String toString() {
-        String au = "{";
-        for (User u: assigned) {
-            au += u.toString() + ",";
-        }
-        au += "}";
-        return "{\"id\": "+id+", \"name\": \""+name+"\", \"description\": \""+description+"\", \"assigned\": "+au+", \"done\": "+done+"}";
-    }
+    // @Override
+    // public String toString() {
+    //     String au = "{";
+    //     for (User u: assigned) {
+    //         au += u.toString() + ",";
+    //     }
+    //     au += "}";
+    //     return "{\"id\": "+id+", \"name\": \""+name+"\", \"description\": \""+description+"\", \"assigned\": "+au+", \"done\": "+done+"}";
+    // }
 }
