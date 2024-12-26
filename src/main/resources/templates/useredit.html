@@ -6,6 +6,7 @@
     <title>Форма редактирования пользователя</title>
 </head>
 <body>
+    <div th:replace="~{template :: header}"></div>
     <h2>Редактирование пользователя</h2>
     <form method="post" th:object="${userdto}">
         <label for="username">Имя пользователя:</label><br>
@@ -18,7 +19,7 @@
         <input type="number" id="age" name="age" required th:field="${userdto.age}"><br>
         <label for="email">Email:</label><br>
         <input type="email" id="email" name="email" required th:field="${userdto.email}"><br>
-        <button type="submit">Сохранить</button>
+        <input type="submit" value="Сохранить">
     </form>
 </body>
 </html>

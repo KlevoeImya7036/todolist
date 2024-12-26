@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Assign Users</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .user-list {
+            margin-bottom: 20px;
+        }
+        .user-item {
+            margin: 5px 0;
+        }
+        .message {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="~{template :: header}"></div>
+    <h1>Назначить пользователя на задачу</h1>
+
+    <!-- Display success or error messages -->
+    <div th:if="${message != null}" class="message" th:text="${message}"></div>
+    <div th:if="${error != null}" class="error" th:text="${error}"></div>
+
+    <!-- Form to select users -->
+    <form method="post">
+        <div class="user-list">
+            <h3>Выберите пользователя:</h3>
+            <div th:each="user : ${users}" class="user-item">
+                <input type="checkbox" id="assignedUsers" name="assignedUsers" th:value="${user.username}" th:checked="${task.assigned.containts(user)}"/>
+            </div>
+        </div>
+        <button type="submit">Assign</button>
+    </form>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.vakin.todolist.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,14 +27,23 @@ public class ProjectService {
 
     @Transactional
     public Project saveProject(ProjectDto project, String username) {
-
         Project projectToSave = new Project();
+        User admin = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         projectToSave.setName(project.getName());
         projectToSave.setDescription(project.getDescription());
-        projectToSave.setAdmin(userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found")));
-
+        projectToSave.setAdmin(admin);
+        projectToSave.addUser(admin);
 
         return projectRepository.save(projectToSave);
+    }
+
+    @Transactional
+    public Project editProject(Long id, ProjectDto project) {
+        Project projectToEdit = getProjectById(id);
+        projectToEdit.setName(project.getName());
+        projectToEdit.setDescription(project.getDescription());
+        projectToEdit.setAdmin(projectToEdit.getAdmin());
+        return projectRepository.save(projectToEdit);
     }
 
     public List<Project> getAllProjects() {
@@ -52,15 +62,6 @@ public class ProjectService {
         projectRepository.deleteById(id);
     }
 
-    @Transactional
-    public Project editProject(Long id, ProjectDto project) {
-        Project projectToEdit = getProjectById(id);
-        projectToEdit.setName(project.getName());
-        projectToEdit.setDescription(project.getDescription());
-        projectToEdit.setAdmin(projectToEdit.getAdmin());
-        return projectRepository.save(projectToEdit);
-    }
-
     public boolean isProjectOwner(Long id, String name) {
         return projectRepository.findById(id).map(project -> project.getAdmin().getUsername().equals(name)).orElse(false);
     }
@@ -74,5 +75,9 @@ public class ProjectService {
 
     public List<Project> getAllProjectsByUser(User user) {
         return projectRepository.findByUsers(user);
+    }
+
+    public Set<User> getAllUsersInProject(Long id) {
+        return projectRepository.findById(id).orElseThrow(() -> new ProjectNotFoundException("Project not found")).getUsers();
     }
 }

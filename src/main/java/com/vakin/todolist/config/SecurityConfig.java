@@ -41,7 +41,16 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                 .requestMatchers("/", "/signup", "/login", "/api/**").permitAll()
                 .anyRequest().authenticated())
-                .formLogin(formLogin -> formLogin.permitAll().defaultSuccessUrl("/project").loginPage("/login"));
+                .formLogin(formLogin -> formLogin
+                    .defaultSuccessUrl("/project")
+                    .loginPage("/login")
+                    .permitAll()
+                )    
+                .logout(logout -> logout
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/")
+                    .permitAll()
+                );
 
         return http.build();
     }

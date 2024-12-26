@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.vakin.todolist.dto.UserDto;
 import com.vakin.todolist.exception.EmailAlreadyTakenException;
+import com.vakin.todolist.exception.InvalidAgeException;
+import com.vakin.todolist.exception.InvalidPasswordException;
 import com.vakin.todolist.exception.UsernameAlreadyTakenException;
 import com.vakin.todolist.service.UserService;
 
@@ -30,25 +33,24 @@ public class HomePageController {
     }
 
     @GetMapping("signup")
-    public String createUser(Model model, String error) {
-        if (error == "InvalidUserName") {
-            model.addAttribute("error", "Эта почта уже используется. Попробуйте другую.");
-        } else if (error == "InvalidEmail") {
-            model.addAttribute("error", "Это имя пользователя уже используется. Попробуйте другое.");
-        }
+    public String createUser(Model model) {
         model.addAttribute("userdto", new UserDto());
         return "signup";
     }
 
     @PostMapping("signup")
-    public String postUser(@Valid @ModelAttribute UserDto userdto, Model model) throws UsernameAlreadyTakenException, EmailAlreadyTakenException {
+    public String postUser(@Valid @ModelAttribute UserDto userdto, Model model, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws UsernameAlreadyTakenException, EmailAlreadyTakenException {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
+            redirectAttributes.addFlashAttribute("user", userdto);
+            return "redirect:/signup";
+        }
         try {
             userService.registerUser(userdto);
             return "redirect:/login";
-        } catch (UsernameAlreadyTakenException e) {
-            return "redirect:/signup?error=InvalidUserName";
-        } catch (EmailAlreadyTakenException e) {
-            return "redirect:/signup?error=InvalidEmail";
+        } catch (UsernameAlreadyTakenException | EmailAlreadyTakenException | InvalidAgeException | InvalidPasswordException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/signup";
         }
     }
 

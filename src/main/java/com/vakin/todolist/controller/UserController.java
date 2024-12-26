@@ -57,7 +57,7 @@ public class UserController {
         userdto.setPassword(user.getPassword());
         userdto.setUsername(user.getUsername());
         model.addAttribute("userdto", userdto);
-        return "useredit";
+        return "userEdit";
     }
 
     @PostMapping("edit")
@@ -67,7 +67,7 @@ public class UserController {
             return "redirect:/user";
         }
         if (result.hasErrors()) {
-            return "useredit";
+            return "userEdit";
         }
         user.setName(userdto.getName());
         user.setAge(userdto.getAge());

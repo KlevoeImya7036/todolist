@@ -6,15 +6,13 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="/project/create"></a>
-    <table th:each="project : ${projects}">
-        <tr>
-            <td><div>
-                <h1 th:text="${project.name}"></h1>
-                <p th:text="${project.description}"></p>
-            </div></td>
-            <td><button><a th:href="|project/${project.id}|">перейти</a></button></td>
-        </tr>
-    </table>
+    <div th:replace="~{template :: header}"></div>
+    <a href="/project/create">Создать проект</a>
+    <div th:each="project : ${projects}">
+        <div>
+            <a th:href="|project/${project.id}|"><h1 th:text="${project.name}"></h1></a>
+            <p th:text="${project.description}"></p>
+        </div>
+    </div>
 </body>
 </html>

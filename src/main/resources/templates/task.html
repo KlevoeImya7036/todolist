@@ -1,15 +1,58 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title th:text="${task.name}"></title>
 </head>
 <body>
-    <h1>Task</h1>
-    <p>Id: <span th:text="${task.id}"></span></p>
-    <p>Name: <span th:text="${task.name}"></span></p>
-    <p>Description: <span th:text="${task.description}"></span></p>
-    <p>Done: <span th:text="${task.done}"></span></p>
+    <div th:replace="~{template :: header}"></div>
+    <div class="container mt-5">
+        <div class="card mb-4">
+            <div class="card-body">
+                <p class="card-title" th:text="${task.name}"></p>
+                <p class="card-text" th:text="${task.description}"></p>
+                <p th:text="${task.done} ? 'Выполнено' : 'Не выполнено'" th:class="${task.done} ? 'bg-success' : 'bg-danger'"></p>
+                <div class="assignedUsers" th:if="${task.assigned}">
+                    <p>Назначенные пользователи:</p>
+                    <div th:each="${user : task.assigned}">
+                        <p th:value="${user.username}"></p>
+                    </div>
+                    <a href="/assign" class="btn btn-primary btn-block">Назначить задачу</a>
+                </div>
+            </div>
+            <form method="post">
+                <input type="hidden" name="done" id="done" th:value="${true}">
+                <button type="submit" class="btn btn-success btn-block">Выполнить</button>
+            </form>
+        </div>
+        <a href="/edit" class="btn btn-primary btn-block">Редактировать задачу</a>
+        <a href="/delete" class="btn btn-danger btn-block">Удалить задачу</a>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Комментарии</h2>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    <li class="list-group-item" th:each="comment : ${comments}">
+                        <small class="text-muted" th:text="'Дата создания: ' + ${#temporals.format(comment.writingDate, 'dd-MM-yyyy HH:mm:ss')}"></small>
+                        <small class="text-muted" th:text="'Автор: ' + ${comment.user.username}"></small>
+                        <p class="mb-1" th:text="${comment.text}"></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a th:href="@{/project/{task.project.id}/comments/create(id=${project.id})}" class="btn btn-success">Добавить комментарий</a>
+            <a th:href="@{/project/list}" class="btn btn-secondary">Назад к задачам</a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
-</html>
+    
+</body>
+</html> -->

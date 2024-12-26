@@ -32,11 +32,16 @@ public class Task {
     @Column(name = "done", nullable = false)
     private boolean done;
 
-    Task(){}
-    Task(String name, String description, boolean done) {
-        this.name = name;
-        this.description = description;
-        this.done = done;
+    @ManyToOne
+    private Project project;
+
+
+    public void addAssignedUser(Set<User> users) {
+        assigned.addAll(users);
+    }
+
+    public void removeAssignedUser(User user) {
+        assigned.remove(user);
     }
 
     @Override

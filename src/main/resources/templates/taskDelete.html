@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div th:replace="~{template :: header}"></div>
+    <form method="post" th:object="${task}">
+        <h1 th:text="|Задача ${task.name} будет невозвратно удалён|"></h1>
+        <h2>Вы уверены?</h2>
+        <button><a href="/task">Нет</a></button>
+        <input type="submit" value="Да">
+    </form>
+    <h1 th:text></h1>
+</body>
+</html>

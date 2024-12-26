@@ -33,12 +33,16 @@ public class Project {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users = new HashSet<User>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "project_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
     private Set<Task> tasks = new HashSet<Task>();
 
+    
     public void addUser(User user) {
         this.users.add(user);
+    }
+
+    public void removeUser(User user) {
+        this.users.remove(user);
     }
 
     @Override

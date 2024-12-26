@@ -1,6 +1,9 @@
 package com.vakin.todolist.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
+
+import org.springframework.data.annotation.CreatedDate;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -15,27 +18,23 @@ public class Comment {
     @Column(name = "id", nullable = false)
     private Long id;
     
-    @Column(name = "task_id", nullable = false, updatable = false)
-    private Long taskId;
-    
-    @Column(name = "user_id", nullable = false, updatable = false)
-    private Long userId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "task_id")
+    private Task task;
+
+    @CreatedDate
+    private LocalDateTime writingDate;
 
     @NotBlank(message = "Comment text is required")
     private String text;
 
-    private Date writingDate;
-
-    Comment(){}
-    Comment(Long taskId, Long userId, String text, Date writingDate) {
-        this.taskId = taskId;
-        this.userId = userId;
-        this.text = text;
-        this.writingDate = writingDate;
-    }
 
     @Override
     public String toString() {
-        return "{\"id\": "+id+", \"taskId\": "+taskId+", \"userId\": "+userId+", \"text\": \""+text+"\", \"writingDate\": \""+writingDate+"\"}";
+        return "{\"id\": "+id+", \"taskId\": "+task.getId()+", \"userId\": "+user.getId()+", \"text\": \""+text+"\", \"writingDate\": \""+writingDate+"\"}";
     }
 }

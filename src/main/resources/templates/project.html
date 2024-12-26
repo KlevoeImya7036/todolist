@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -27,13 +27,14 @@
 <body>
     <h1 th:text="${project.name}"></h1>
     <a th:href="|${project.id}/edit|">Изменить</a><br>
-    <a th:href="|${project.id}/adduser|">Добавить пользователя</a>
-    <aside th:each="task : ${project.tasks}">
-        <h1><a th:href="|task/${task.id}|" th:text="${task.name}">Задача 1</a></h1>
+    <a th:href="|${project.id}/adduser|">Добавить пользователя</a><br>
+    <a th:href="|${project.id}/taskcreate|">Добавить задачу</a>
+    <div th:each="task : ${project.tasks}">
+        <h1 th:text="${task.name}"></h1>
         <p th:text="${task.description}"></p>
-    </aside>
+    </div>
     <div th:each="user : ${project.users}">
-        <h1><a th:text="${user.username}">Задача 1</a></h1>
+        <h1><a th:text="${user.username}"></a></h1>
     </div>
 </body>
-</html>
+</html> -->
