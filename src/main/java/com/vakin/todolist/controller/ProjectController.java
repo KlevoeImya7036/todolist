@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.vakin.todolist.dto.ProjectDto;
 import com.vakin.todolist.dto.TaskDto;
-import com.vakin.todolist.exception.EmailAlreadyTakenException;
-import com.vakin.todolist.exception.UsernameAlreadyTakenException;
 import com.vakin.todolist.service.ProjectService;
 import com.vakin.todolist.service.TaskService;
 import com.vakin.todolist.service.UserService;
@@ -39,6 +37,7 @@ public class ProjectController {
     @Autowired
     private TaskService taskService;
     
+    
     @GetMapping
     public String getAllProjects(Model model, Principal principal) {
         model.addAttribute("projects", projectService.getAllProjectsByUser(userService.findByUsername(principal.getName())));
@@ -47,6 +46,9 @@ public class ProjectController {
     
     @GetMapping("{id}")
     public String getProjectById(@PathVariable Long id, Model model, Principal principal) {
+        if (!projectService.isUserInProject(id, principal.getName())) {
+            return "redirect:/project";
+        }
         model.addAttribute("project", projectService.getProjectById(id));
         return "project";
     }
@@ -68,7 +70,7 @@ public class ProjectController {
         if (!projectService.isProjectOwner(id, principal.getName())) {
             return "redirect:/project";
         }
-        model.addAttribute("project", projectService.getProjectById(id));
+        model.addAttribute("projectdto", projectService.getProjectById(id));
         return "projectEdit";
     }
 
@@ -118,13 +120,19 @@ public class ProjectController {
     }
 
     @GetMapping("{id}/taskcreate")
-    public String createUser(Model model) {
+    public String createUser(@PathVariable Long id, Principal principal, Model model) {
+        if (!projectService.isUserInProject(id, principal.getName())) {
+            return "redirect:/project";
+        }
         model.addAttribute("taskdto", new TaskDto());
         return "taskCreate";
     }
 
     @PostMapping("{id}/taskcreate")
-    public String saveUser(@Valid @ModelAttribute TaskDto taskdto, @PathVariable Long id, Model model, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String saveUser(@Valid @ModelAttribute TaskDto taskdto, @PathVariable Long id, Principal principal, Model model, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (!projectService.isUserInProject(id, principal.getName())) {
+            return "redirect:/project";
+        }
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.task", bindingResult);
             redirectAttributes.addFlashAttribute("task", taskdto);

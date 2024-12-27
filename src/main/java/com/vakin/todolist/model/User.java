@@ -1,6 +1,7 @@
 package com.vakin.todolist.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -45,6 +46,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+    
 
     public User(){}
     public User(String name, Integer age, String email, String username, String password) {

@@ -3,16 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Удаление задачи</title>
 </head>
 <body>
     <div th:replace="~{template :: header}"></div>
-    <form method="post" th:object="${task}">
-        <h1 th:text="|Задача ${task.name} будет невозвратно удалён|"></h1>
-        <h2>Вы уверены?</h2>
-        <button><a href="/task">Нет</a></button>
-        <input type="submit" value="Да">
-    </form>
-    <h1 th:text></h1>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form method="post">
+                    <h1 class="text-center mt-5" th:text="|Задача ${task.name} будет невозвратно удалёна|"></h1>
+                    <h2 class="text-center mt-5">Вы уверены?</h2>
+                    <div class="text-center mt-5">
+                        <a th:href="|/project/${task.project.id}|" class="btn btn-danger">Нет</a>
+                        <button type="submit" class="btn btn-primary">Да</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -1,12 +1,13 @@
 package com.vakin.todolist.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -39,7 +40,7 @@ public class HomePageController {
     }
 
     @PostMapping("signup")
-    public String postUser(@Valid @ModelAttribute UserDto userdto, Model model, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws UsernameAlreadyTakenException, EmailAlreadyTakenException {
+    public String postUser(@Valid @ModelAttribute UserDto userdto, Model model, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws UsernameAlreadyTakenException, EmailAlreadyTakenException, InvalidAgeException, InvalidPasswordException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
             redirectAttributes.addFlashAttribute("user", userdto);
@@ -57,5 +58,27 @@ public class HomePageController {
     @GetMapping("login")
     public String login() {
         return "login";
+    }
+
+    @GetMapping("useredit")
+    public String showUserEditForm(Model model, Principal principal) {
+        model.addAttribute("userdto", userService.getUserByUsername(principal.getName()));
+        return "userEdit";
+    }
+
+    @PostMapping("useredit")
+    public String editUser(@ModelAttribute UserDto userdto, Model model, Principal principal, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws UsernameAlreadyTakenException, EmailAlreadyTakenException {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
+            redirectAttributes.addFlashAttribute("user", userdto);
+            return "redirect:/useredit";
+        }
+        try {
+        userService.editUser(userService.getUserByUsername(principal.getName()).getId(), userdto);
+        return "redirect:/logout";
+        } catch (UsernameAlreadyTakenException | EmailAlreadyTakenException | InvalidAgeException | InvalidPasswordException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/useredit";
+        }
     }
 }

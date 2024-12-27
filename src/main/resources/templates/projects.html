@@ -4,14 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .a-projectname {
+            text-decoration: none;
+            color: black;
+        }
+        .a-projectname:hover {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
     <div th:replace="~{template :: header}"></div>
-    <a href="/project/create">Создать проект</a>
-    <div th:each="project : ${projects}">
-        <div>
-            <a th:href="|project/${project.id}|"><h1 th:text="${project.name}"></h1></a>
-            <p th:text="${project.description}"></p>
+    <br><a href="/project/create" class="btn btn-primary">Создать проект</a>
+    <div class="container mt-5">
+        <div class="card mb-4" th:each="project : ${projects}">
+            <div class="card-body">
+                <div>
+                    <a th:href="|project/${project.id}|" class="a-projectname"><h1 class="card-title" th:text="${project.name}"></h1></a>
+                    <p class="card-text" th:text="${project.description}"></p>
+                </div>
+            </div>
         </div>
     </div>
 </body>

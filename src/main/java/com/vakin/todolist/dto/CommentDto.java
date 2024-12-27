@@ -1,7 +1,5 @@
 package com.vakin.todolist.dto;
 
-import java.util.Date;
-
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 

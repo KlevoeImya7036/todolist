@@ -3,38 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title th:text="${project.name}"></title>
     <style>
-        aside {
-            width: 200px;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #f1f1f1;
-        }
-        aside a {
-            display: block;
-            padding: 10px;
+        .card-title {
             text-decoration: none;
-            color: #333;
         }
-        aside a:hover {
-            background-color: #ddd;
+        .card-title:hover {
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <h1 th:text="${project.name}"></h1>
-    <a th:href="|${project.id}/edit|">Изменить</a><br>
-    <a th:href="|${project.id}/adduser|">Добавить пользователя</a><br>
-    <a th:href="|${project.id}/taskcreate|">Добавить задачу</a>
-    <div th:each="task : ${project.tasks}">
-        <h1 th:text="${task.name}"></h1>
-        <p th:text="${task.description}"></p>
+    <div th:replace="~{template :: header}"></div>
+    <div class="container mt-5">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h1 class="card-title" th:text="${project.name}"></h1>
+                <h3 class="card-text" th:text="${project.description}"></h3>
+                <div class="mt-4">
+                    <a href="/project" class="btn btn-secondary">Назад к проектам</a>
+                    <a th:href="|${project.id}/edit|" class="btn btn-primary">Изменить</a>
+                    <a th:href="|${project.id}/adduser|" class="btn btn-primary">Добавить пользователя</a>
+                    <a th:href="|${project.id}/taskcreate|" class="btn btn-primary">Добавить задачу</a>
+                    <a th:href="|${project.id}/delete|" class="btn btn-danger">Удалить проект</a>
+                </div><br>
+                <div class="card mb-4" th:each="task : ${project.tasks}">
+                    <div class="card-body">
+                        <a class="card-title" th:href="|${project.id}/task/${task.id}|"><h1 th:text="${task.name}"></h1></a>
+                        <p class="card-text" th:text="${task.description}"></p>
+                        <p th:text="${task.done} ? 'Выполнено' : 'Не выполнено'" th:class="${task.done} ? 'bg-success' : 'bg-danger'" style="width: 112px; text-align: center;"></p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <h3 class="card-title">Пользователи в проекте:</h3>
+                        <li class="list-group-item" th:each="user : ${project.users}">
+                            <small th:text="${user.username}"></small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-    <div th:each="user : ${project.users}">
-        <h1 th:text="${user.username}"></h1>
-    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

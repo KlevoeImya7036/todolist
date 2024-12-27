@@ -62,10 +62,6 @@ public class ProjectService {
         projectRepository.deleteById(id);
     }
 
-    public boolean isProjectOwner(Long id, String name) {
-        return projectRepository.findById(id).map(project -> project.getAdmin().getUsername().equals(name)).orElse(false);
-    }
-
     public Project addUserToProject(Long id, String username) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         Project project = getProjectById(id);
@@ -79,5 +75,13 @@ public class ProjectService {
 
     public Set<User> getAllUsersInProject(Long id) {
         return projectRepository.findById(id).orElseThrow(() -> new ProjectNotFoundException("Project not found")).getUsers();
+    }
+
+    public boolean isProjectOwner(Long id, String name) {
+        return projectRepository.findById(id).map(project -> project.getAdmin().getUsername().equals(name)).orElse(false);
+    }
+
+    public boolean isUserInProject(Long id, String username) {
+        return projectRepository.findById(id).map(project -> project.getUsers().stream().anyMatch(user -> user.getUsername().equals(username))).orElse(false);
     }
 }

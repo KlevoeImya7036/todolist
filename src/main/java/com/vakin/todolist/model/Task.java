@@ -1,7 +1,10 @@
 package com.vakin.todolist.model;
 
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -23,17 +26,23 @@ public class Task {
     @Column(name = "description")
     private String description;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_task",
-            joinColumns = @JoinColumn(name = "task_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> assigned = new HashSet<User>(); // users assigned to this task
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "task_users",
+        joinColumns = @JoinColumn(name = "task_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> assigned;
 
     @Column(name = "done", nullable = false)
     private boolean done;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "project_id", nullable = false)
     private Project project;
+
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Comment> comments;
 
 
     public void addAssignedUser(Set<User> users) {
@@ -51,6 +60,6 @@ public class Task {
     //         au += u.toString() + ",";
     //     }
     //     au += "}";
-    //     return "{\"id\": "+id+", \"name\": \""+name+"\", \"description\": \""+description+"\", \"assigned\": "+au+", \"done\": "+done+"}";
+    //     return "{\"id\": "+id+", \"name\": \""+name+"\", \"description\": \""+description+"\", \"assigned\": "+au+", \"done\": "+done+", \"project_id\": "+project.getId()+"}";
     // }
 }

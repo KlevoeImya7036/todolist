@@ -24,7 +24,7 @@ public class CommentService {
     public void saveComment(CommentDto comment, User user, Task task) {
         Comment commentToSave = new Comment();
         commentToSave.setText(comment.getText());
-        commentToSave.setUser(user);
+        commentToSave.setAuthor(user);
         commentToSave.setTask(task);
         commentRepository.save(commentToSave);
     }
