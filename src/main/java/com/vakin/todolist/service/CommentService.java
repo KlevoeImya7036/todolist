@@ -40,6 +40,6 @@ public class CommentService {
 
     @Transactional
     public void deleteAllByTaskId(Long id) {
-        commentRepository.deleteByTaskId(id);
+        commentRepository.deleteAllByTaskId(id);
     }
 }

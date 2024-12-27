@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -33,10 +36,8 @@ public class Project {
     @JoinTable(name = "user_project",
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<User> users = new HashSet<User>();
-
-    // @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "project")
-    // private Set<Task> tasks = new HashSet<Task>();
 
 
     public void addUser(User user) {
@@ -47,18 +48,14 @@ public class Project {
         this.users.remove(user);
     }
 
-    // @Override
-    // public String toString() {
-    //     String user = "{";
-    //     for (User a: users) {
-    //         user += a.toString() + ",";
-    //     }
-    //     user += "}";
-    //     String task = "{";
-    //     for (Task a: tasks) {
-    //         task += a.toString() + ",";
-    //     }
-    //     task += "}";
-    //     return "{\"id\": "+id+", \"name\": \""+name+"\", \"description\": \""+description+"\", \"admin\": "+admin.toString()+", \"users\": "+user+", \"tasks\": "+task+"}";
-    // }
+
+    @Override
+    public String toString() {
+        String user = "{";
+        for (User a: users) {
+            user += a.toString() + ",";
+        }
+        user += "}";
+        return "{\"id\": "+id+", \"name\": \""+name+"\", \"description\": \""+description+"\", \"admin\": "+admin.toString()+", \"users\": "+user+"}";
+    }
 }

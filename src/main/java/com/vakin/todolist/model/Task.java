@@ -3,6 +3,9 @@ package com.vakin.todolist.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -27,6 +30,7 @@ public class Task {
     @JoinTable(name = "user_task",
             joinColumns = @JoinColumn(name = "task_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<User> assigned = new HashSet<User>();
 
     @Column(name = "done", nullable = false)

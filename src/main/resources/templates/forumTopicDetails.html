@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Детали темы</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div th:replace="~{template :: header}"></div>
+    <div class="container mt-5">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h1 class="card-title" th:text="${topic.name}"></h1>
+                <p class="card-text" th:text="${topic.description}"></p>
+                <p class="text-muted" th:text="'Дата создания: ' + ${#temporals.format(topic.createdDate, 'dd-MM-yyyy HH:mm:ss')}"></p>
+                <p class="text-muted" th:text="'Автор: ' + ${topic.author.username}"></p>
+            </div>
+            <div class="card-footer" th:if="${isForumTopicOwner}">
+                <a th:href="@{/forum/{id}/edit(id=${topic.id})}" class="btn btn-primary mr-2">Редактировать</a>
+                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteTopicModal">Удалить</button>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteTopicModal" tabindex="-1" role="dialog" aria-labelledby="deleteTopicModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteTopicModalLabel">Подтверждение удаления</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Вы уверены, что хотите удалить тему "<span th:text="${topic.name}"></span>"? Это действие нельзя отменить.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        <form th:action="@{/forum/{id}/delete(id=${topic.id})}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-danger">Удалить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Сообщения</h2>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    <li class="list-group-item" th:each="message : ${forumMessages}">
+                        <small class="text-muted" th:text="'Дата создания: ' + ${#temporals.format(message.createdDate, 'dd-MM-yyyy HH:mm:ss')}"></small>
+                        <small class="text-muted" th:text="'Автор: ' + ${message.author.username}"></small>
+                        <p class="mb-1" th:text="${message.text}"></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a th:href="@{/forum/{id}/messages/create(id=${topic.id})}" class="btn btn-success">Создать сообщение</a>
+            <a th:href="@{/forum/list}" class="btn btn-secondary">Назад к темам</a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

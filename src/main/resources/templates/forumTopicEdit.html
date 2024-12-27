@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редактировать тему</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div th:replace="~{template :: header}"></div>
+    <div class="container mt-4">
+        <h1 class="mb-4">Редактировать тему</h1>
+
+        <form th:action="@{/forum/{id}/edit(id=${topicIdToEdit})}" th:object="${topic}" method="post" class="needs-validation">
+            <div class="form-group">
+                <label for="name">Название:</label>
+                <input type="text" id="name" th:field="*{name}" class="form-control" required>
+                <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback d-block">
+                    <span th:errors="*{name}">Ошибка в названии</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Описание:</label>
+                <textarea id="description" th:field="*{description}" class="form-control" rows="4" required></textarea>
+                <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback d-block">
+                    <span th:errors="*{description}">Ошибка в описании</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+            </div>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

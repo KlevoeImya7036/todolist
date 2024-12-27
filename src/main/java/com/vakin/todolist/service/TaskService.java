@@ -55,6 +55,7 @@ public class TaskService {
             throw new TaskNotFoundException("Task not found");
         }
         Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException("Task not found"));
+        commentRepository.deleteAllByTaskId(id);
         taskRepository.delete(task);
     }
 

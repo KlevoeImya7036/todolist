@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 import com.vakin.todolist.dto.ProjectDto;
 import com.vakin.todolist.exception.ProjectNotFoundException;
 import com.vakin.todolist.model.Project;
+import com.vakin.todolist.model.Task;
 import com.vakin.todolist.model.User;
+import com.vakin.todolist.repository.CommentRepository;
 import com.vakin.todolist.repository.ProjectRepository;
+import com.vakin.todolist.repository.TaskRepository;
 import com.vakin.todolist.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -24,6 +27,12 @@ public class ProjectService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     @Transactional
     public Project saveProject(ProjectDto project, String username) {
@@ -58,6 +67,12 @@ public class ProjectService {
     public void deleteProject(Long id) {
         if (!projectRepository.existsById(id)) {
             throw new ProjectNotFoundException("Project not found");
+        }
+        if (!taskRepository.findAllByProjectId(id).isEmpty()) {
+            for (Task task : taskRepository.findAllByProjectId(id)) {
+                commentRepository.deleteAllByTaskId(task.getId());
+            }
+            taskRepository.deleteAllByProjectId(id);
         }
         projectRepository.deleteById(id);
     }
