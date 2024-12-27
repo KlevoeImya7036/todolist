@@ -18,7 +18,7 @@
     <div th:replace="~{template :: header}"></div>
     <div class="container mt-5">
         <div class="card mb-4">
-            <div class="card-body">
+            <div class="card-body" th:object="${project}">
                 <h1 class="card-title" th:text="${project.name}"></h1>
                 <h3 class="card-text" th:text="${project.description}"></h3>
                 <div class="mt-4">
@@ -28,7 +28,7 @@
                     <a th:href="|${project.id}/taskcreate|" class="btn btn-primary">Добавить задачу</a>
                     <a th:href="|${project.id}/delete|" class="btn btn-danger">Удалить проект</a>
                 </div><br>
-                <div class="card mb-4" th:each="task : ${project.tasks}">
+                <div class="card mb-4" th:each="task : ${tasks}">
                     <div class="card-body">
                         <a class="card-title" th:href="|${project.id}/task/${task.id}|"><h1 th:text="${task.name}"></h1></a>
                         <p class="card-text" th:text="${task.description}"></p>

@@ -1,6 +1,7 @@
 package com.vakin.todolist.service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,6 @@ public class TaskService {
             throw new TaskNotFoundException("Task not found");
         }
         Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException("Task not found"));
-        commentRepository.deleteAll(task.getComments());
         taskRepository.delete(task);
     }
 
@@ -78,5 +78,9 @@ public class TaskService {
         Task taskToSave = getTaskById(id);
         taskToSave.setDone(done);
         return taskRepository.save(taskToSave);
+    }
+
+    public List<Task> getAllProjectTasks(Long id) {
+        return taskRepository.findAllByProjectId(id);
     }
 }

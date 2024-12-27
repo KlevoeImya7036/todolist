@@ -1,6 +1,8 @@
 package com.vakin.todolist.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.vakin.todolist.dto.ProjectDto;
 import com.vakin.todolist.dto.TaskDto;
+import com.vakin.todolist.model.Project;
+import com.vakin.todolist.model.Task;
 import com.vakin.todolist.service.ProjectService;
 import com.vakin.todolist.service.TaskService;
 import com.vakin.todolist.service.UserService;
@@ -50,6 +54,7 @@ public class ProjectController {
             return "redirect:/project";
         }
         model.addAttribute("project", projectService.getProjectById(id));
+        model.addAttribute("tasks", taskService.getAllProjectTasks(id));
         return "project";
     }
 

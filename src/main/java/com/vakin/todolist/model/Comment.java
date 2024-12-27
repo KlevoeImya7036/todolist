@@ -2,8 +2,6 @@ package com.vakin.todolist.model;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -38,6 +36,6 @@ public class Comment {
 
     @Override
     public String toString() {
-        return "{\"id\": "+id+", \"taskId\": "+task.getId()+", \"userId\": "+author.getId()+", \"text\": \""+text+"\", \"writingDate\": \""+writingDate+"\"}";
+        return "{\"id\": "+id+", \"taskId\": "+task.getId()+", \"author_id\": "+author.getId()+", \"text\": \""+text+"\", \"writingDate\": \""+writingDate+"\"}";
     }
 }
